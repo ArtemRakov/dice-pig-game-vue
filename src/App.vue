@@ -20,6 +20,8 @@
             </div>
             
             <button class="btn-new" @click="newGame"><i class="ion-ios-plus-outline"></i>New game</button>
+            <span class="label"> Select final score </span>
+            <input type="text" name='input' v-model="finalScore" class="input-score">
             <button class="btn-roll" v-if="!gameOver" @click="rollDice"><i class="ion-ios-loop"></i>Roll dice</button>
             <button class="btn-hold" v-if="!gameOver" @click="hold"><i class="ion-ios-download-outline"></i>Hold</button>
             
@@ -46,7 +48,8 @@ export default {
      },
      activePlayer: 0,
      dice: false,
-     gameOver: false
+     gameOver: false,
+     finalScore: 50
    } 
   },
   methods: {
@@ -71,7 +74,7 @@ export default {
       const score = this.scores['player' + this.activePlayer].currentRoll
       this.scores['player' + this.activePlayer].currentRoll = 0
       this.scores['player' + this.activePlayer].totalScore += score
-      if (this.scores['player' + this.activePlayer].totalScore >= 100) {
+      if (this.scores['player' + this.activePlayer].totalScore >= this.finalScore) {
         this.scores['player' + this.activePlayer].winner = "Winner!"
         this.dice = false
         this.gameOver = true
@@ -243,7 +246,34 @@ i {
 .btn-new { top: 45px;}
 .btn-roll { top: 403px;}
 .btn-hold { top: 467px;}
+.input-score { 
+  top: 130px;
+  position: absolute; 
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: Lato;
+  font-size: 20px;
+  text-transform: uppercase;
+  background-color: transparent;
+  border: none;
+  text-align: center;
+  border-bottom: 1px solid #555;
+  }
+  .input-score:focus {
+    outline: none;    
+  }
 
+  .label {
+    top: 90px;
+    position: absolute; 
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: Lato;
+    font-size: 20px;
+    text-transform: uppercase;
+    background-color: transparent;
+    text-align: center;
+  }
 .dice {
     position: absolute;
     left: 50%;
