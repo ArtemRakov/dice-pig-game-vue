@@ -1,7 +1,7 @@
 <template>
   <div id='app'>
      <div class="wrapper clearfix">
-            <div class="player-0-panel active">
+            <div class="player-0-panel" :class="{active: activePlayer === 0}">
                 <div class="player-name" id="name-0">Player 1</div>
                 <div class="player-score" id="score-0">{{ scores.player0.totalScore }}</div>
                 <div class="player-current-box">
@@ -10,7 +10,7 @@
                 </div>
             </div>
             
-            <div class="player-1-panel">
+            <div class="player-1-panel" :class="{active: activePlayer === 1}">
                 <div class="player-name" id="name-1">Player 2</div>
                 <div class="player-score" id="score-1">{{ scores.player1.totalScore }}</div>
                 <div class="player-current-box">
@@ -23,7 +23,7 @@
             <button class="btn-roll" @click="rollDice"><i class="ion-ios-loop"></i>Roll dice</button>
             <button class="btn-hold"><i class="ion-ios-download-outline"></i>Hold</button>
             
-            <img :src="require(`./assets/dice-${this.dice}.png`)" alt="Dice" class="dice">
+            <img v-if="dice" :src="require(`./assets/dice-${this.dice}.png`)" alt="Dice" class="dice">
         </div>
   </div>
 </template>
@@ -43,14 +43,20 @@ export default {
        }
      },
      activePlayer: 0,
-     dice: 2
+     dice: false
    } 
   },
   methods: {
     rollDice() {
       const dice = Math.floor(Math.random() * 6 + 1)
       this.dice = dice
-      this.scores['player' + this.activePlayer].currentRoll += dice
+      if (dice !== 1) {
+        this.scores['player' + this.activePlayer].currentRoll += dice
+      }
+      else {
+        this.scores['player' + this.activePlayer].currentRoll = 0
+        this.activePlayer === 0 ? this.activePlayer = 1 : this.activePlayer = 0 
+      }
     }
   }
 };
