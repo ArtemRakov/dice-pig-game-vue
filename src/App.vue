@@ -2,7 +2,7 @@
   <div id='app'>
      <div class="wrapper clearfix">
             <div class="player-0-panel" :class="{active: activePlayer === 0}">
-                <div class="player-name" id="name-0">Player 1</div>
+                <div class="player-name" id="name-0">{{ scores.player0.winner }}</div>
                 <div class="player-score" id="score-0">{{ scores.player0.totalScore }}</div>
                 <div class="player-current-box">
                     <div class="player-current-label">Current</div>
@@ -11,7 +11,7 @@
             </div>
             
             <div class="player-1-panel" :class="{active: activePlayer === 1}">
-                <div class="player-name" id="name-1">Player 2</div>
+                <div class="player-name" id="name-1">{{ scores.player1.winner }}</div>
                 <div class="player-score" id="score-1">{{ scores.player1.totalScore }}</div>
                 <div class="player-current-box">
                     <div class="player-current-label">Current</div>
@@ -20,8 +20,8 @@
             </div>
             
             <button class="btn-new"><i class="ion-ios-plus-outline"></i>New game</button>
-            <button class="btn-roll" @click="rollDice"><i class="ion-ios-loop"></i>Roll dice</button>
-            <button class="btn-hold" @click="hold"><i class="ion-ios-download-outline"></i>Hold</button>
+            <button class="btn-roll" v-if="!gameOver" @click="rollDice"><i class="ion-ios-loop"></i>Roll dice</button>
+            <button class="btn-hold" v-if="!gameOver" @click="hold"><i class="ion-ios-download-outline"></i>Hold</button>
             
             <img v-if="dice" :src="require(`./assets/dice-${this.dice}.png`)" alt="Dice" class="dice">
         </div>
@@ -35,15 +35,18 @@ export default {
      scores: {
        player0: {
          currentRoll: 0,
-         totalScore: 0
+         totalScore: 0,
+         winner: "Player 1",
        },
        player1: {
          currentRoll: 0,
-         totalScore: 0
+         totalScore: 0,
+         winner: "Player 2"
        }
      },
      activePlayer: 0,
-     dice: false
+     dice: false,
+     gameOver: false
    } 
   },
   methods: {
@@ -62,8 +65,13 @@ export default {
       const score = this.scores['player' + this.activePlayer].currentRoll
       this.scores['player' + this.activePlayer].currentRoll = 0
       this.scores['player' + this.activePlayer].totalScore += score
+      if (this.scores['player' + this.activePlayer].totalScore >= 100) {
+        this.scores['player' + this.activePlayer].winner = "Winner!"
+        this.gameOver = true
+        return
+      }
       this.activePlayer === 0 ? this.activePlayer = 1 : this.activePlayer = 0 
-    }
+    },
   }
 };
 </script>
