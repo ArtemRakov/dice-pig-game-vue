@@ -21,7 +21,7 @@
             
             <button class="btn-new"><i class="ion-ios-plus-outline"></i>New game</button>
             <button class="btn-roll" @click="rollDice"><i class="ion-ios-loop"></i>Roll dice</button>
-            <button class="btn-hold"><i class="ion-ios-download-outline"></i>Hold</button>
+            <button class="btn-hold" @click="hold"><i class="ion-ios-download-outline"></i>Hold</button>
             
             <img v-if="dice" :src="require(`./assets/dice-${this.dice}.png`)" alt="Dice" class="dice">
         </div>
@@ -57,6 +57,12 @@ export default {
         this.scores['player' + this.activePlayer].currentRoll = 0
         this.activePlayer === 0 ? this.activePlayer = 1 : this.activePlayer = 0 
       }
+    },
+    hold() {
+      const score = this.scores['player' + this.activePlayer].currentRoll
+      this.scores['player' + this.activePlayer].currentRoll = 0
+      this.scores['player' + this.activePlayer].totalScore += score
+      this.activePlayer === 0 ? this.activePlayer = 1 : this.activePlayer = 0 
     }
   }
 };
