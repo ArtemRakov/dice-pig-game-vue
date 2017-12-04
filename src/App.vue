@@ -74,6 +74,7 @@ export default {
       const score = this.scores['player' + this.activePlayer].currentRoll
       this.scores['player' + this.activePlayer].currentRoll = 0
       this.scores['player' + this.activePlayer].totalScore += score
+      this.finalScore ? this.finalScore : this.finalScore = 50
       if (this.scores['player' + this.activePlayer].totalScore >= this.finalScore) {
         this.scores['player' + this.activePlayer].winner = "Winner!"
         this.dice = false
@@ -247,7 +248,7 @@ i {
 .btn-roll { top: 403px;}
 .btn-hold { top: 467px;}
 .input-score { 
-  top: 130px;
+  top: 550px;
   position: absolute; 
   left: 50%;
   transform: translateX(-50%);
@@ -264,7 +265,7 @@ i {
   }
 
   .label {
-    top: 90px;
+    top: 520px;
     position: absolute; 
     left: 50%;
     transform: translateX(-50%);
