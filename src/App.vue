@@ -19,7 +19,7 @@
                 </div>
             </div>
             
-            <button class="btn-new"><i class="ion-ios-plus-outline"></i>New game</button>
+            <button class="btn-new" @click="newGame"><i class="ion-ios-plus-outline"></i>New game</button>
             <button class="btn-roll" v-if="!gameOver" @click="rollDice"><i class="ion-ios-loop"></i>Roll dice</button>
             <button class="btn-hold" v-if="!gameOver" @click="hold"><i class="ion-ios-download-outline"></i>Hold</button>
             
@@ -72,6 +72,23 @@ export default {
       }
       this.activePlayer === 0 ? this.activePlayer = 1 : this.activePlayer = 0 
     },
+    newGame() {
+      this.scores = {
+       player0: {
+         currentRoll: 0,
+         totalScore: 0,
+         winner: "Player 1",
+       },
+       player1: {
+         currentRoll: 0,
+         totalScore: 0,
+         winner: "Player 2"
+       }
+     }
+     this.activePlayer = 0
+     this.dice = false
+     this.gameOver = false
+    }
   }
 };
 </script>
