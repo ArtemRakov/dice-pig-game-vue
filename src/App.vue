@@ -51,9 +51,15 @@ export default {
   },
   methods: {
     rollDice() {
+      const prevoiusDice = this.dice
       const dice = Math.floor(Math.random() * 6 + 1)
       this.dice = dice
-      if (dice !== 1) {
+      if (prevoiusDice === 6 && dice === 6 ) {
+        this.scores['player' + this.activePlayer].totalScore = 0;
+        this.scores['player' + this.activePlayer].currentRoll = 0;
+        this.activePlayer === 0 ? this.activePlayer = 1 : this.activePlayer = 0 
+      }
+      else if (dice !== 1) {
         this.scores['player' + this.activePlayer].currentRoll += dice
       }
       else {
@@ -67,6 +73,7 @@ export default {
       this.scores['player' + this.activePlayer].totalScore += score
       if (this.scores['player' + this.activePlayer].totalScore >= 100) {
         this.scores['player' + this.activePlayer].winner = "Winner!"
+        this.dice = false
         this.gameOver = true
         return
       }
